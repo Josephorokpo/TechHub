@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <div class="container mt-5">
+    <h1 class="mb-4">Update Profile</h1>
+    <form method="post" enctype="multipart/form-data">
+      {% csrf_token %}
+      <div class="row">
+        <div class="col-md-6">
+          {{ form.bio.label_tag }}
+          {{ form.bio }}
+        </div>
+        <div class="col-md-6">
+          {{ form.location.label_tag }}
+          {{ form.location }}
+          {{ form.job.label_tag }}
+          {{ form.job }}
+          {{ form.profile_picture.label_tag }}
+          {{ form.profile_picture }}
+        </div>
+      </div>
+      <button type="submit" class="btn btn-primary mt-3">Update Profile</button>
+      <a href="{% url 'profile' %}" class="btn btn-secondary mt-3">Cancel</a>
+    </form>
+  </div>
+{% endblock %}

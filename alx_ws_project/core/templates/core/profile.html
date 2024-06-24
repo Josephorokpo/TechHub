@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block content %}
+<div class="container mt-5 pt-3 pb-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title text-center">User Profile</h2>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-4">
+                            {% if user.profile_picture %}
+                                <img src="{{ user.profile_picture.url }}" class="img-fluid mb-3 rounded-circle" alt="Profile Picture">
+                            {% else %}
+                                <img src="{% static 'images/default_avatar.png' %}" class="img-fluid mb-3 rounded-circle" alt="Default Avatar">
+                            {% endif %}
+                        </div>
+                        <div class="col-md-8">
+                            <h5 class="card-title">{{ user.username }}</h5>
+                            <p class="card-text">Bio: {{ user.bio|default:'No bio available.' }}</p>
+                            <p class="card-text">Location: {{ user.location|default:'Location not specified.' }}</p>
+                            <p class="card-text">Job: {{ user.job|default:'Job not specified.' }}</p>
+                            <a href="{% url 'update-profile' %}" class="btn btn-primary">Edit Profile</a>
+                        </div>
+                    </div>
+                    <hr>
+                    <h3>User's Blogs</h3>
+                    <ul class="list-group">
+                        {% for blog in user_blogs %}
+                            <li class="list-group-item">
+                                <h5><a href="{% url 'detail' blog.slug %}">{{ blog.title }}</a></h5>
+                                <p>{{ blog.body|truncatewords:20 }}</p>
+                                <p><small>Published on: {{ blog.created|date:"F d, Y" }}</small></p>
+                            </li>
+                        {% empty %}
+                            <li class="list-group-item">No blogs created yet.</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block styles %}
+<style>
+    body {
+        padding-top: 60px;
+        padding-bottom: 60px;
+    }
+    .navbar {
+        margin-bottom: 20px;
+    }
+</style>
+{% endblock %}
